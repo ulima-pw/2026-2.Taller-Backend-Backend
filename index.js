@@ -48,6 +48,23 @@ app.post("/login", async function(req, resp) {
     }
 })
 
+app.get("/videojuegos", async function(req, resp) {
+    const videojuegos = await prisma.videojuego.findMany()
+    resp.json(videojuegos)
+})
+
+app.post("/videojuegos", async function(req, resp) {
+    const vj = req.body
+    // TODO :Validar formato de vj
+    await prisma.videojuego.create({
+        data : vj
+    })
+    resp.json({
+        msg : ""
+    })
+})
+
+
 app.listen(PORT, function() {
     console.log(`Servidor funcionando en puerto ${PORT}`)
 })

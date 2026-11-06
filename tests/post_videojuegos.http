@@ -1,0 +1,9 @@
+POST http://localhost:3000/videojuegos
+Content-Type: application/json
+
+{
+    "nombre" : "GTA 6",
+    "url_imagen" : "https://www.notebookcheck.org/fileadmin/Notebooks/News/_nc5/GTA-6-price-confirmed.jpg",
+    "sinopsis" : "Grand Theft Auto VI (GTA 6) se lanzará oficialmente a nivel mundial el 19 de noviembre de 2026 para las consolas PlayStation 5 y Xbox Series X|S. El videojuego más esperado de la década, desarrollado por Rockstar Games, sitúa su historia en el estado ficticio de Leonida (basado en Florida) y marca el regreso de la icónica Vice City.",
+    "categoria" : "Acción"
+}
