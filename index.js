@@ -1,6 +1,11 @@
 import express from "express"
 import bodyParser from "body-parser"
 import cors from "cors"
+import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient }  from "./prisma/generated/prisma/index.js"
+import "dotenv/config"
+
+
 
 const PORT = 3000
 
@@ -13,11 +18,17 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 app.use(cors())
 
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
+const prisma = new PrismaClient({ adapter })
+
 // Endpoints
-app.post("/login", function(req, resp) {
+app.post("/login", async function(req, resp) {
     const data = req.body
     const usuario = data.usuario
     const password = data.password
+
+    const usuarios = await prisma.usuario.findMany()
+
 
     if (usuario === "oscar" && password === "123") {
         // Login correcto
