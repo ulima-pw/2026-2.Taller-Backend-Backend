@@ -27,26 +27,25 @@ app.post("/login", async function(req, resp) {
     const usuario = data.usuario
     const password = data.password
 
-    const usuarios = await prisma.usuario.findMany()
+    const usuarioLogueado = await prisma.usuario.findFirst({
+        where : {
+            username : usuario,
+            password : password
+        }
+    })
 
-
-    if (usuario === "oscar" && password === "123") {
-        // Login correcto
-        /*resp.send(JSON.stringify({
-            msg : ""
-        }))*/
-        resp.json({
-            msg : ""
-        })
-        return
-    } else {
-        // Login incorrecto
+    if (usuarioLogueado == null) {
+        // Error login
         resp.json({
             msg : "Error en el login"
         })
         return
+    }else {
+        resp.json({
+            msg : ""
+        })
+        return
     }
-
 })
 
 app.listen(PORT, function() {
