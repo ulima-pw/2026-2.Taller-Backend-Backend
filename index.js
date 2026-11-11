@@ -50,7 +50,17 @@ app.post("/login", async function(req, resp) {
 
 // ================== Categorias ==========================//
 app.get("/categorias", async function(req, resp) {
-    const categorias = await prisma.categoria.findMany()
+    const categorias = await prisma.categoria.findMany({
+        include : {
+            videojuegos : {
+                omit : {
+                    url_imagen : true,
+                    sinopsis : true,
+                    idCategoria : true
+                }
+            }
+        }
+    })
     resp.json(categorias)
 })
 
@@ -69,7 +79,15 @@ app.post("/categorias", async function(req, resp) {
 // ============= Videojuegos ==============================//
 
 app.get("/videojuegos", async function(req, resp) {
-    const videojuegos = await prisma.videojuego.findMany()
+    const videojuegos = await prisma.videojuego.findMany({
+        include : {
+            categoria : true
+        },
+        omit : {
+            idCategoria : true
+        }
+        
+    })
     resp.json(videojuegos)
 })
 
