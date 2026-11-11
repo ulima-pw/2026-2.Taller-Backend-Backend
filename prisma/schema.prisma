@@ -24,5 +24,20 @@ model Videojuego {
   nombre String
   url_imagen String
   sinopsis String
-  categoria String
+  categoria Categoria @relation(fields: [idCategoria], references: [id])
+  idCategoria Int
+  plataformas Plataforma[] @relation("Videojuego_Plataforma")
+}
+
+model Categoria {
+  id Int @id @default(autoincrement())
+  nombre String
+  descripcion String?
+  videojuegos Videojuego[]
+}
+
+model Plataforma {
+  id Int @id @default(autoincrement())
+  nombre String
+  videojuegos Videojuego[] @relation("Videojuego_Plataforma")
 }

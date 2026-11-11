@@ -48,6 +48,26 @@ app.post("/login", async function(req, resp) {
     }
 })
 
+// ================== Categorias ==========================//
+app.get("/categorias", async function(req, resp) {
+    const categorias = await prisma.categoria.findMany()
+    resp.json(categorias)
+})
+
+app.post("/categorias", async function(req, resp) {
+    const categoria = req.body
+
+    await prisma.categoria.create({
+        data : categoria
+    })
+
+    resp.json({
+        msg : ""
+    })
+})
+
+// ============= Videojuegos ==============================//
+
 app.get("/videojuegos", async function(req, resp) {
     const videojuegos = await prisma.videojuego.findMany()
     resp.json(videojuegos)

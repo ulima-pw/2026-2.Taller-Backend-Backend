@@ -1,0 +1,6 @@
+POST http://localhost:3000/categorias
+Content-Type: application/json
+
+{
+    "nombre" : "Deportes"
+}
