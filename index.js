@@ -164,6 +164,49 @@ app.post("/videojuegos", async function(req, resp) {
     })
 })
 
+app.put("/videojuegos/:id", async function (req, resp) {
+    const idVideojuego = req.params.id
+    const data = req.body
+
+    if (idVideojuego == "") {
+        resp.json({
+            msg: "Debe enviar un id de videojuego para actualizar"
+        })
+        return
+    } 
+
+    await prisma.videojuego.update({
+        where : {
+            id : Number(idVideojuego)
+        },
+        data : {
+            ...data,
+            plataformas : {
+                set : data.plataformas
+            }
+        }
+    })
+
+    resp.json({
+        msg : ""
+    })
+    return
+})
+
+app.delete("/videojuegos/:id", async function (req, resp) {
+    const idVideojuego = req.params.id
+
+    await prisma.videojuego.delete({
+        where : {
+            id : Number(idVideojuego)
+        }
+    })
+
+    resp.json({
+        msg : ""
+    })
+})
+
 
 app.listen(PORT, function() {
     console.log(`Servidor funcionando en puerto ${PORT}`)

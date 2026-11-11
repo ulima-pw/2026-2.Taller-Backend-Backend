@@ -1,0 +1,8 @@
+PUT http://localhost:3000/videojuegos/3
+Content-Type: application/json
+
+{
+    "nombre" : "Zelda: Ocarina of Time",
+    "sinopsis" : "The Legend of Zelda: Ocarina of Time[b] is a 2026 action-adventure game developed and published by Nintendo for the Nintendo Switch 2. It is a remake of the 1998 game released for the Nintendo 64. It was released on November 5, 2026 to critical acclaim. The Legend of Zelda: Ocarina of Time remake sold more than 5.2 million copies within four days, making it the fastest-selling game released for the Nintendo Switch 2.",
+    "plataformas" : [{"id" : 1}, {"id" : 2}]
+}
