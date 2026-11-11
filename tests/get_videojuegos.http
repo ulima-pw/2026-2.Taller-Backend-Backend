@@ -1,1 +1,7 @@
 GET http://localhost:3000/videojuegos
+
+###
+GET http://localhost:3000/videojuegos?categoria_id=1
+
+###
+GET http://localhost:3000/videojuegos/3

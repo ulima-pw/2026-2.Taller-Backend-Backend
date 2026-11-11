@@ -48,6 +48,24 @@ app.post("/login", async function(req, resp) {
     }
 })
 
+// ================== Plataformas ==========================//
+app.get("/plataformas", async function(req, resp) {
+    const plataformas = await prisma.plataforma.findMany()
+    resp.json(plataformas)
+})
+
+app.post("/plataformas", async function(req, resp) {
+    const plataforma = req.body
+
+    await prisma.plataforma.create({
+        data : plataforma
+    })
+
+    resp.json({
+        msg : ""
+    })
+})
+
 // ================== Categorias ==========================//
 app.get("/categorias", async function(req, resp) {
     const categorias = await prisma.categoria.findMany({
@@ -78,10 +96,49 @@ app.post("/categorias", async function(req, resp) {
 
 // ============= Videojuegos ==============================//
 
-app.get("/videojuegos", async function(req, resp) {
-    const videojuegos = await prisma.videojuego.findMany({
+app.get("/videojuegos/:id", async function(req, resp) {
+    const id = req.params.id
+
+    const videojuego = await prisma.videojuego.findFirst({
+        where : {
+            id : Number(id)
+        },
         include : {
-            categoria : true
+            categoria : {
+                omit : {
+                    descripcion : true
+                }
+            },
+            plataformas : true
+        },
+        omit: {
+            idCategoria : true
+        }
+    })
+    if (videojuego == null) {
+        resp.json({
+            msg : "No existe videojuego con el id enviado"
+        })
+        return
+    }else {
+        resp.json({
+            videojuego : videojuego,
+            msg : ""
+        })
+        return
+    }
+})
+
+app.get("/videojuegos", async function(req, resp) {
+    const categoriaId = req.query.categoria_id
+
+    const videojuegos = await prisma.videojuego.findMany({
+        where :  categoriaId == undefined ? undefined : {
+            idCategoria : Number(categoriaId)
+        },
+        include : {
+            categoria : true,
+            plataformas : true
         },
         omit : {
             idCategoria : true
@@ -95,7 +152,12 @@ app.post("/videojuegos", async function(req, resp) {
     const vj = req.body
     // TODO :Validar formato de vj
     await prisma.videojuego.create({
-        data : vj
+        data : {
+            ...vj,
+            plataformas : {
+                connect : vj.plataformas
+            }
+        }
     })
     resp.json({
         msg : ""
